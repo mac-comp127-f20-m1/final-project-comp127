@@ -52,16 +52,24 @@ public class Hook {
             moveY = 0 - moveY;
             hook.moveBy(moveX, moveY);
         }
-
-
-        for (GraphicsObject g : min) {
-            if(g.getY()<= INITIAL_Y){
-                // canvas.remove(g);
-                // min.remove(g);
-            }else{
-                getMineral(g);
+        
+        GraphicsObject collider = getCollidingObject();
+        
+             if(collider!=null){
+		
+          
+                canvas.remove(collider); 
+                
             }
-        }
+        // for (GraphicsObject g : min) {
+        //     if(g.getY()<= INITIAL_Y){
+        //         // canvas.remove(g);
+        //         // min.remove(min.indexOf(g)+1);
+        //         //min.remove(g);
+        //     }else{
+        //         getMineral(g);
+        //     }
+        // }
 
         // TODO: 如果从list里面remove的话，会有error message：ConcurrentModificationException
         // 可以考虑将检测两者之间距离的distance method换成getElementAt.
@@ -149,6 +157,21 @@ public class Hook {
     public void posite(double x, double y) {
         hook.setPosition(x, y);
     }
-
-
+    
+    /**
+     * Check the collision between the minerals and the hook
+     * 
+     * @param x x-coordinate
+     * @param y y-coordinate
+     */
+    private GraphicsObject getCollidingObject() {
+		
+        if((canvas.getElementAt(getCenterX(), getCenterY())) != null) {
+             return canvas.getElementAt(getCenterX(), getCenterY());
+          }
+        else{
+             return null;
+          }
+        
+    }
 }
