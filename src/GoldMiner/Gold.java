@@ -2,7 +2,9 @@ package GoldMiner;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import edu.macalester.graphics.CanvasWindow;
@@ -45,7 +47,7 @@ public class Gold {
 
         for (GraphicsObject mineralPieces : finalMineral){
             x = Math.random()*700;
-            y = Math.random()*400 + 75;
+            y = Math.random()*400 + 125;
             // x += 50;
             // y += 30;
             mineralPieces.setPosition(x,y);
@@ -137,14 +139,18 @@ public class Gold {
 
     }
 
-
-    public double getCenterX() {
-        return largeGold.getX();
+    /**
+     * Return the radius of the given mineral
+     * 还没写出来，我在想是不是可以用Map来解决这个问题，把mineral设为Key, 把mineral的重量设为value;
+     * @param mineral
+     * @return
+     */
+    public double getMineralRadius(GraphicsObject mineral){
+        Map a = new HashMap<>();
+        return 0;
     }
 
-    public double getCenterY() {
-        return largeGold.getY();
-    }
+    
 
     public List<GraphicsObject> getList() {
         return finalMineral;

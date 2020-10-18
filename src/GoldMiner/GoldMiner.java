@@ -6,6 +6,7 @@ import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Ellipse;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Line;
+import edu.macalester.graphics.ui.Button;
 
 public class GoldMiner {
 
@@ -16,8 +17,11 @@ public class GoldMiner {
     private Hook hook;
     private Gold gold;
 
+    private Button start;
 
     private boolean animating = true;
+
+    private double angle;
 
 
     public GoldMiner() {
@@ -26,27 +30,46 @@ public class GoldMiner {
         gold = new Gold(canvas);
         hook = new Hook(canvas, 800, 600, gold);
 
+        start = new Button("START");
+        start.setPosition(700, 550);
+        canvas.add(start);
+
         createPlayerImage();
 
-        while (true) {
-            hook.updatePosition();
-            // Line line = new Line(hook.INITIAL_X, hook.INITIAL_Y, hook.getCenterX(), hook.getCenterY());
-            // canvas.add(line);
-            canvas.draw();
+        updateAngle();
 
-            if (hook.getCenterY() <= hook.INITIAL_Y) {
-                hook.posite(hook.INITIAL_X, hook.INITIAL_Y);
-                // canvas.remove(line);
-                canvas.draw();
-                hook.updateDirection();
-            }
-        }
-
+        /**
+         * 一个完整的get是：if start get click, hook.updatePosition for infinite times, if hook y < initial y,
+         * stop.
+         */
     }
 
-    public void createPlayerImage(){
+    public void updateAngle() {
+        canvas.animate(() -> {
+            if (animating) {
+                hook.updateAiming(angle);
+                angle += 1;
+                canvas.onClick(event -> {
+                    animating = false;
+                    hook.updateDirection();
+                    while (hook.getCenterY() >= 50) {
+                        hook.updatePosition(angle);
+                    }
+                });
+                if (angle >= 70) {
+                    angle = -70;
+                }
+                start.onClick(() -> {
+                    animating = true;
+                    hook.posite(hook.INITIAL_X, hook.INITIAL_Y);
+                });
+            }
+        });
+    }
+
+    public void createPlayerImage() {
         Ellipse head = new Ellipse(400, 20, 22, 22);
-        Line body = new Line(411,44,411,55);
+        Line body = new Line(411, 44, 411, 55);
         GraphicsText text = new GraphicsText("YOU");
         text.setCenter(417, 28);
         text.setFontSize(8);
