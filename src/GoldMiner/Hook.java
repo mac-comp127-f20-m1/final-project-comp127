@@ -15,6 +15,7 @@ public class Hook {
     private GraphicsObject hook;
     private CanvasWindow canvas;
     private Line hookaiming;
+    private Gold gold;
 
 
     private double maxX;
@@ -42,13 +43,13 @@ public class Hook {
         this.maxX = maxX;
         this.maxY = maxY;
         this.canvas = canvas;
+        this.gold=gold;
 
         hook = new Rectangle(INITIAL_X, INITIAL_Y, 10, 10);
         canvas.add(hook);
         canvas.draw();
 
         min = new ArrayList<>(gold.getList());
-
         newMap=gold.getMap();
 
         x2 = INITIAL_X + 5;
@@ -58,16 +59,25 @@ public class Hook {
         canvas.add(hookaiming);
 
     }
-
-    public void updatePosition(double angle) {
-
+      /**
+     * This function update the position of the hook
+     * 
+     * @param angle The change angle of the hook
+     * @param mineral The name of the mineral that would generate the parameters of the minerals
+     * @return
+     */
+    public void updatePosition(double angle, GraphicsObject mineral) {
+         double weight=newMap.get(mineral).getWeight();
+         double score=newMap.get(mineral).getScore();
+         double newX = moveX -weight;
+         double newY=moveY-weight;
         if (hook.getX() >= 0 && hook.getX() <= maxX && hook.getY() <= maxY) {
-            hook.moveBy(moveX, moveY);
+            hook.moveBy(newX, newY);
             canvas.draw();
         } else {
-            moveX = 0 - moveX;
-            moveY = 0 - moveY;
-            hook.moveBy(10*moveX, 10*moveY);
+            newX = 0 - newX;
+            newY = 0 - newY;
+            hook.moveBy(10*newX, 10*newY);
             canvas.draw();
         }
 
