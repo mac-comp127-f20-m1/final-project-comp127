@@ -2,11 +2,13 @@ package GoldMiner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Line;
 import edu.macalester.graphics.Rectangle;
+import edu.macalester.graphics.Ellipse;
 
 public class Hook {
 
@@ -34,6 +36,7 @@ public class Hook {
     public boolean now = true;
 
     public List<GraphicsObject> min;
+    public Map<Ellipse, WeightandScore> newMap;
 
     public Hook(CanvasWindow canvas, double maxX, double maxY, Gold gold) {
         this.maxX = maxX;
@@ -46,6 +49,7 @@ public class Hook {
 
         min = new ArrayList<>(gold.getList());
 
+        newMap=gold.getMap();
 
         x2 = INITIAL_X + 5;
         y2 = INITIAL_Y + 15;
