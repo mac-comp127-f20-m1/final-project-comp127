@@ -7,13 +7,11 @@ import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Line;
 import edu.macalester.graphics.Rectangle;
-import edu.macalester.graphics.events.KeyboardEventHandler;
 
 public class Hook {
 
     private GraphicsObject hook;
     private CanvasWindow canvas;
-    private Gold gold;
     private Line hookaiming;
 
 
@@ -40,7 +38,6 @@ public class Hook {
     public Hook(CanvasWindow canvas, double maxX, double maxY, Gold gold) {
         this.maxX = maxX;
         this.maxY = maxY;
-        this.gold = gold;
         this.canvas = canvas;
 
         hook = new Rectangle(INITIAL_X, INITIAL_Y, 10, 10);
@@ -66,7 +63,6 @@ public class Hook {
         } else {
             moveX = 0 - moveX;
             moveY = 0 - moveY;
-            System.out.println("WAIT");
             hook.moveBy(10*moveX, 10*moveY);
             canvas.draw();
         }
@@ -80,9 +76,6 @@ public class Hook {
             }
         // TODO: 如果从list里面remove的话，会有error message：ConcurrentModificationException
         // 可以考虑将检测两者之间距离的distance method换成getElementAt.
-
-        gold.updateMineral(this);
-
 
     }
 
@@ -135,6 +128,7 @@ public class Hook {
 
     }
 
+    // TODO: 可以用这个来改变速度，加在上一个getMineral 的 method里面。
     // public void updateVelocity(){
     // velocity = 5;
     // moveX = velocity * Math.sin(angle);

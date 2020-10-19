@@ -1,7 +1,5 @@
 package GoldMiner;
 
-import java.awt.Color;
-
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Ellipse;
 import edu.macalester.graphics.GraphicsText;
