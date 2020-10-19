@@ -170,7 +170,8 @@ public class Gold {
     public void createMap() {
         // informationOfMinerals.put(new WeightandScore(MAXDIAMOND-randomDouble(), SCOREDIAMOND, 20),
         // diamond);
-        informationOfMinerals.put(bigGold, new WeightandScore(MAXGOLD - randomDouble(), SCOREGOLD, 50));
+        informationOfMinerals.put(bigGold, 
+            new WeightandScore(MAXGOLD - randomDouble(), SCOREGOLD, 50));
         informationOfMinerals.put(bigGold,
             new WeightandScore(MAXGOLD - randomDouble() * 4, SCOREGOLD - randomDouble(), 30));
         informationOfMinerals.put(smallGold,
@@ -198,5 +199,9 @@ public class Gold {
         double max = 3.0;
         double min = 1.0;
         return random.nextDouble() * (max - min) + min;
+    }
+
+    public Map<Ellipse, WeightandScore> getMap(){
+        return informationOfMinerals;
     }
 }
