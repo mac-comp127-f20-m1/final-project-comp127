@@ -90,6 +90,7 @@ public class Hook {
             }
         // TODO: 如果从list里面remove的话，会有error message：ConcurrentModificationException
         // 可以考虑将检测两者之间距离的distance method换成getElementAt.
+        //TODO：现在的问题是，不知道MINERALS怎么放进这个METHOD里面
 
     }
 
@@ -139,6 +140,7 @@ public class Hook {
         } else {
             return false;
         }
+        //TODO 还没有改MINERAL的VELOCITY
 
     }
 
