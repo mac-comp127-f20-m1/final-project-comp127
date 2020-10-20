@@ -75,17 +75,20 @@ public class Hook {
         //  double newY=moveY-weight;
         if (hook.getX() >= 0 && hook.getX() <= maxX && hook.getY() <= maxY) {
             hook.moveBy(moveX, moveY);
-            canvas.draw();
+            //maybe add step
+           
         } else {
             moveX = 0 - moveX;
             moveY = 0 - moveY;
             hook.moveBy(10*moveX, 10*moveY);
-            canvas.draw();
+      
         }
 
         for (GraphicsObject g : min) {
                 if(g.getY()<= INITIAL_Y){
-
+                    min.remove(g);
+                    canvas.remove(g);
+                    break;
                 }else{
                     getMineral(g);
                 }

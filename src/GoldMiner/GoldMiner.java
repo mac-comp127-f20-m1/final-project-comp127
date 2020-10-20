@@ -17,7 +17,7 @@ public class GoldMiner {
 
     private Button start;
 
-    private boolean animating = true;
+    private boolean collectingMinerals = false;
 
     private double angle;
 
@@ -44,26 +44,29 @@ public class GoldMiner {
 
     public void updateAngle() {
         canvas.animate(() -> {
-            if (animating) {
+            if (!collectingMinerals) {
                 hook.updateAiming(angle);
+
                 angle += 1;
-                canvas.onClick(event -> {
-                    animating = false;
-                    hook.updateDirection();
-                    while (hook.getCenterY() >= 50) {
-                        hook.updatePosition(angle);
-                    }
-                });
                 if (angle >= 70) {
                     angle = -70;
                 }
-                start.onClick(() -> {
-                    animating = true;
-                    hook.posite(hook.INITIAL_X, hook.INITIAL_Y);
-                });
+            } else {
+                hook.updatePosition(angle);
+                if (hook.getCenterY() <= 50) {
+                    collectingMinerals = false;
+                }
+            }
+        });
+
+        canvas.onClick(event -> {
+            if (!collectingMinerals) {
+                collectingMinerals = true;
+                hook.updateDirection();
             }
         });
     }
+
 
     public void createPlayerImage() {
         Ellipse head = new Ellipse(400, 20, 22, 22);
