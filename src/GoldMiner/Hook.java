@@ -24,6 +24,7 @@ public class Hook {
     private double y2;// x2,y2 to define the end point of the hook aiming line;
 
     private double velocity = 10;
+    private double score;
 
 
     private double angle = Math.toRadians(-10);
@@ -54,6 +55,7 @@ public class Hook {
 
         x2 = INITIAL_X + 5;
         y2 = INITIAL_Y + 15;
+        //score=newMap.get(gold).getScore();
         hookaiming = new Line(INITIAL_X + 5, INITIAL_Y, x2, y2);
         hookaiming.setStrokeWidth(4);
         canvas.add(hookaiming);
@@ -216,4 +218,5 @@ public class Hook {
         }
 
     }
+    //TODO: how to collect score
 }
