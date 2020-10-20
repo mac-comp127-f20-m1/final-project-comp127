@@ -68,18 +68,18 @@ public class Hook {
      * @param mineral The name of the mineral that would generate the parameters of the minerals
      * @return
      */
-    public void updatePosition(double angle, GraphicsObject mineral) {
-         double weight=newMap.get(mineral).getWeight();
-         double score=newMap.get(mineral).getScore();
-         double newX = moveX -weight;
-         double newY=moveY-weight;
+    public void updatePosition(double angle) {
+        //  double weight=newMap.get(mineral).getWeight();
+        //  double score=newMap.get(mineral).getScore();
+        //  double newX = moveX -weight;
+        //  double newY=moveY-weight;
         if (hook.getX() >= 0 && hook.getX() <= maxX && hook.getY() <= maxY) {
-            hook.moveBy(newX, newY);
+            hook.moveBy(moveX, moveY);
             canvas.draw();
         } else {
-            newX = 0 - newX;
-            newY = 0 - newY;
-            hook.moveBy(10*newX, 10*newY);
+            moveX = 0 - moveX;
+            moveY = 0 - moveY;
+            hook.moveBy(10*moveX, 10*moveY);
             canvas.draw();
         }
 
