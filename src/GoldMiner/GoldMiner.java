@@ -4,6 +4,7 @@ import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Ellipse;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Line;
+import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.ui.Button;
 
 public class GoldMiner {
@@ -35,6 +36,7 @@ public class GoldMiner {
         createPlayerImage();
 
         updateAngle();
+
 
         /**
          * 一个完整的get是：if start get click, hook.updatePosition for infinite times, if hook y < initial y,

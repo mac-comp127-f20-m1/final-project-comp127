@@ -172,7 +172,7 @@ public class Gold {
         // diamond);
         informationOfMinerals.put(bigGold, 
             new WeightandScore(MAXGOLD - randomDouble(), SCOREGOLD, 50));
-        informationOfMinerals.put(bigGold,
+        informationOfMinerals.put(mediumGold,
             new WeightandScore(MAXGOLD - randomDouble() * 4, SCOREGOLD - randomDouble(), 30));
         informationOfMinerals.put(smallGold,
             new WeightandScore(MAXGOLD - randomDouble() * 8, SCOREGOLD - randomDouble() * 4, 20));

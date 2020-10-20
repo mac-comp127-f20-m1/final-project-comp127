@@ -86,8 +86,8 @@ public class Hook {
 
         for (GraphicsObject g : min) {
                 if(g.getY()<= INITIAL_Y){
-                    min.remove(g);
                     canvas.remove(g);
+                    min.remove(g);
                     break;
                 }else{
                     getMineral(g);
@@ -109,12 +109,12 @@ public class Hook {
 
 
     public void updateAiming(double i) {
-            angle = Math.toRadians(i);
-            x2 = Math.sin(angle) * 40 + INITIAL_X + 5;
-            y2 = Math.cos(angle) * 40 + INITIAL_Y + 15;
-            hookaiming.setEndPosition(x2, y2);
-            canvas.draw();
-            canvas.pause(50);
+        angle = Math.toRadians(i);
+        x2 = Math.sin(angle) * 40 + INITIAL_X + 5;
+        y2 = Math.cos(angle) * 40 + INITIAL_Y + 15;
+        hookaiming.setEndPosition(x2, y2);
+        canvas.draw();
+        canvas.pause(50);
     }
 
     /**
@@ -126,7 +126,9 @@ public class Hook {
      */
     public boolean getMineral(GraphicsObject mineral) {
 
-        if (distance(mineral) <= 200) {
+        double radius = mineral.getSize().getX();
+  
+        if (distance(mineral) <= Math.pow(radius,2)+100) {
             if (moveY >= 0) {
                 // updateVelocity();
                 moveX = 0 - moveX;
@@ -134,11 +136,12 @@ public class Hook {
                 
             }
             hook.moveBy(moveX, moveY);
-            mineral.moveBy(2 * moveX, 2 * moveY);
+            mineral.moveBy(2 * moveX,  2 * moveY);
             // 系数是2，因为1的时候它检测不到mineral移动。
 
             if (mineral.getY() <= INITIAL_Y) {
-                mineral.setPosition(20, 50);
+                mineral.setPosition(800, 600);
+                
             }
 
             return true;
@@ -164,10 +167,17 @@ public class Hook {
      * @return
      */
     public double distance(GraphicsObject mineral) {
-        double x1 = this.getCenterX() + 5 * Math.sqrt(2);
-        double x2 = mineral.getX() + 15;
-        double y1 = this.getCenterY() + 5 * Math.sqrt(2);
-        double y2 = mineral.getY() + 15;
+
+
+        // double x1 = this.getCenterX() + 5 * Math.sqrt(2);
+        // double x2 = mineral.getX() + 15;
+        // double y1 = this.getCenterY() + 5 * Math.sqrt(2);
+        // double y2 = mineral.getY() + 15;
+
+        double x1 = this.getCenterX();
+        double x2 = mineral.getCenter().getX();
+        double y1 = this.getCenterY();
+        double y2 = mineral.getCenter().getY();
 
         double distance = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
 
@@ -176,11 +186,11 @@ public class Hook {
     }
 
     public double getCenterX() {
-        return hook.getX();
+        return hook.getCenter().getX();
     }
 
     public double getCenterY() {
-        return hook.getY();
+        return hook.getCenter().getY();
     }
 
     public double getMoveX() {
