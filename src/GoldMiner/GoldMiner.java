@@ -62,7 +62,7 @@ public class GoldMiner {
         createPlayerImage();
 
         runGame();
-        //timeCountDown();
+        timeCountDown();
         //TODO: everything would stop moving until the time=0;
     }
 
@@ -93,14 +93,14 @@ public class GoldMiner {
 
                     if (hook.score > 500) {
                         collectingMinerals = false;
-                        canvas.removeAll();
+                        //canvas.removeAll();
                         String win = "YOU WIN!!";
                         winMessage = new GraphicsText(win);
                         winMessage.setFillColor(Color.RED);
                         winMessage.setFontSize(45);
                         canvas.add(winMessage, 350, 250);
                         canvas.draw();
-                        //canvas.pause(3000);
+                        canvas.pause(3000);
                     } else if (hook.score < 500 && limitSec <= 0) {
                         canvas.removeAll();
                         String lost = "GAME OVER!!";
