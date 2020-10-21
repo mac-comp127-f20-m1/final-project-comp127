@@ -131,6 +131,9 @@ public class GoldMiner {
         String introduction = "Release the hook to dig into the ground by click on the screen,";
         String introduction2 = "use your wisdom to find minerals, ";
         String introduction3 = "and reach the target score to pass the level!";
+        String introduction4 = "Different minerals are worth different points,";
+        String introduction5 = "diamonds the highest, the stone the lowest.";
+        String introduction6 = "Scores of the gold and stones would vary from the radius.";
 
         GraphicsText intro1 = new GraphicsText(introduction);
         intro1.setPosition(50, 50);
@@ -147,10 +150,37 @@ public class GoldMiner {
         intro3.setFontSize(25);
         canvas.add(intro3);
 
-        canvas.add(gold.finalMineral.get(1), 120, 200);
+        GraphicsText intro4 = new GraphicsText(introduction4);
+        intro4.setPosition(100, 170);
+        intro4.setFontSize(25);
+        canvas.add(intro4);
+
+        GraphicsText intro5 = new GraphicsText(introduction5);
+        intro5.setPosition(130, 210);
+        intro5.setFontSize(25);
+        canvas.add(intro5);
+
+        GraphicsText intro6 = new GraphicsText(introduction6);
+        intro6.setPosition(100, 250);
+        intro6.setFontSize(25);
+        canvas.add(intro6);
+
+        canvas.add(gold.finalMineral.get(1), 120, 270);
         GraphicsText bigG = new GraphicsText(": 75 points");
         bigG.setFontSize(25);
-        canvas.add(bigG, 180, 225);
+        canvas.add(bigG, 180, 295);
+
+        
+        canvas.add(gold.finalMineral.get(16), 130, 330);
+        GraphicsText smallS = new GraphicsText(":35 points");
+        bigG.setFontSize(25);
+        canvas.add(smallS, 170, 350);
+
+        canvas.add(gold.finalMineral.get(13), 130, 370);
+        GraphicsText diamond = new GraphicsText(":100 points");
+        bigG.setFontSize(25);
+        canvas.add(diamond, 170, 380);
+
 
         canvas.draw();
 
