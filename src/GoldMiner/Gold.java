@@ -63,14 +63,6 @@ public class Gold {
 
         createMineral();
 
-        // for (GraphicsObject mineralPieces : finalMineral) {
-        //     x = Math.random() * 700;
-        //     y = Math.random() * 400 + 125;
-        //     mineralPieces.setPosition(x, y);
-        //     canvas.add(mineralPieces);
-        //     canvas.draw();
-        // }
-
     }
 
     public void createMineral() {

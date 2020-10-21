@@ -46,11 +46,15 @@ public class GoldMiner {
         scoreText.setFontSize(18);
         canvas.add(scoreText);
 
+        GraphicsText targetScore = new GraphicsText("Target Score: 500");
+        targetScore.setPosition(100, 20);
+        targetScore.setFontSize(18);
+        canvas.add(targetScore);
+
         timeText=new GraphicsText(currentTime);
-        timeText.setPosition(100, 80);
+        timeText.setPosition(500, 50);
         timeText.setFontSize(18);
         canvas.add(timeText);
-        // TODO: 加一个目标分数在页面的右上角。
 
         hookLine = new Line(hook.INITIAL_X, hook.INITIAL_Y, hook.getCenterX(), hook.getCenterY());
         canvas.add(hookLine);
@@ -88,7 +92,7 @@ public class GoldMiner {
                     scoreText.setFillColor(Color.MAGENTA);
                     canvas.add(scoreText);
 
-                    if (hook.score > 300) {
+                    if (hook.score > 500) {
                         collectingMinerals = false;
 
                         String win = "YOU WIN!!";
@@ -143,9 +147,9 @@ public class GoldMiner {
         String introduction = "Release the hook to dig into the ground by click on the screen,";
         String introduction2 = "use your wisdom to find minerals, ";
         String introduction3 = "and reach the target score to pass the level!";
-        String introduction4 = "Different minerals are worth different points,";
+        String introduction4 = "Different minerals worth different points,";
         String introduction5 = "diamonds the highest, the stone the lowest.";
-        String introduction6 = "Scores of the gold and stones would vary from the radius.";
+        String introduction6 = "Scores of the gold and stones vary from the radius.";
 
         GraphicsText intro1 = new GraphicsText(introduction);
         intro1.setPosition(50, 50);
@@ -163,50 +167,57 @@ public class GoldMiner {
         canvas.add(intro3);
 
         GraphicsText intro4 = new GraphicsText(introduction4);
-        intro4.setPosition(100, 170);
-        intro4.setFontSize(25);
+        intro4.setPosition(150, 180);
+        intro4.setFontSize(24);
+        intro4.setFillColor(Color.darkGray);
         canvas.add(intro4);
 
         GraphicsText intro5 = new GraphicsText(introduction5);
-        intro5.setPosition(130, 210);
-        intro5.setFontSize(25);
+        intro5.setPosition(130, 220);
+        intro5.setFontSize(24);
+        intro5.setFillColor(Color.darkGray);
         canvas.add(intro5);
 
         GraphicsText intro6 = new GraphicsText(introduction6);
-        intro6.setPosition(100, 250);
-        intro6.setFontSize(25);
+        intro6.setPosition(100, 260);
+        intro6.setFontSize(24);
+        intro6.setFillColor(Color.darkGray);
         canvas.add(intro6);
 
-        canvas.add(gold.finalMineral.get(1), 120, 270);
+
+        canvas.add(gold.finalMineral.get(1), 120, 300);
         GraphicsText bigG = new GraphicsText(": 75 points");
         bigG.setFontSize(25);
-        canvas.add(bigG, 180, 295);
+        canvas.add(bigG, 180, 325);
 
+        canvas.add(gold.finalMineral.get(11), 125, 400);
+        GraphicsText mediumG = new GraphicsText(": 45 points");
+        mediumG.setFontSize(25);
+        canvas.add(mediumG, 180, 420);
         
-        canvas.add(gold.finalMineral.get(16), 130, 330);
-        GraphicsText smallS = new GraphicsText(":35 points");
-        bigG.setFontSize(25);
-        canvas.add(smallS, 170, 350);
+        canvas.add(gold.finalMineral.get(7), 130, 480);
+        GraphicsText smallG = new GraphicsText(": 30 points");
+        smallG.setFontSize(25);
+        canvas.add(smallG, 180, 495);
 
-        canvas.add(gold.finalMineral.get(13), 130, 370);
-        GraphicsText diamond = new GraphicsText(":100 points");
-        bigG.setFontSize(25);
-        canvas.add(diamond, 170, 380);
+
+        canvas.add(gold.finalMineral.get(4), 385, 300);
+        GraphicsText bigS = new GraphicsText(": 35 points");
+        bigS.setFontSize(25);
+        canvas.add(bigS, 470, 325);
+
+        canvas.add(gold.finalMineral.get(16), 405, 400);
+        GraphicsText smallS = new GraphicsText(": 17.5 points");
+        smallS.setFontSize(25);
+        canvas.add(smallS, 470, 420);
+
+        canvas.add(gold.finalMineral.get(13), 415, 480);
+        GraphicsText diamond = new GraphicsText(": 100 points");
+        diamond.setFontSize(25);
+        canvas.add(diamond, 470, 495);
 
 
         canvas.draw();
-
-        // TODO: Create introduction for each type of mineral.
-
-        // canvas.add(gold.finalMineral.get(11), 120, 270);
-
-        // canvas.add(gold.finalMineral.get(7), 120, 300);
-
-        // canvas.add(gold.finalMineral.get(4));
-
-        // canvas.add(smallStone);
-
-        // canvas.add(gold.diamond);
     }
 
     public static void main(String[] args) throws InterruptedException {
