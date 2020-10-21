@@ -13,7 +13,7 @@ public class GoldMiner {
 
     public static final int CANVAS_WIDTH = 800;
     public static final int CANVAS_HEIGHT = 600;
-    private int limitSec=120;
+    private int limitSec = 60;
 
     public List<GraphicsObject> mineralList;
 
@@ -24,8 +24,9 @@ public class GoldMiner {
     private GraphicsText scoreText;
     private GraphicsText timeText;
     private String currentScore = "Your Score : 0";
-    private String currentTime = "Your time limit:  120 sec";
+    private String currentTime = "Your time limit:  60 sec";
     private GraphicsText winMessage;
+    private GraphicsText lostMessage;
 
     private Line hookLine;
 
@@ -33,10 +34,8 @@ public class GoldMiner {
 
     private double angle;
 
-    private CountDown timer;
 
-
-    public GoldMiner(CanvasWindow canvas) throws InterruptedException {
+    public GoldMiner(CanvasWindow canvas)  {
 
         gold.addToCanvas();
         hook = new Hook(canvas, 800, 600, gold);
@@ -51,7 +50,7 @@ public class GoldMiner {
         targetScore.setFontSize(18);
         canvas.add(targetScore);
 
-        timeText=new GraphicsText(currentTime);
+        timeText = new GraphicsText(currentTime);
         timeText.setPosition(500, 50);
         timeText.setFontSize(18);
         canvas.add(timeText);
@@ -59,15 +58,15 @@ public class GoldMiner {
         hookLine = new Line(hook.INITIAL_X, hook.INITIAL_Y, hook.getCenterX(), hook.getCenterY());
         canvas.add(hookLine);
 
-        //timer=new CountDown(limitSec);
 
         createPlayerImage();
 
         runGame();
+        //timeCountDown();
+        //TODO: everything would stop moving until the time=0;
     }
 
     public void runGame() {
-      
         canvas.animate(() -> {
             if (!collectingMinerals) {
                 hook.updateAiming(angle);
@@ -94,14 +93,24 @@ public class GoldMiner {
 
                     if (hook.score > 500) {
                         collectingMinerals = false;
-
+                        canvas.removeAll();
                         String win = "YOU WIN!!";
                         winMessage = new GraphicsText(win);
                         winMessage.setFillColor(Color.RED);
                         winMessage.setFontSize(45);
                         canvas.add(winMessage, 350, 250);
                         canvas.draw();
-                        canvas.pause(3000);
+                        //canvas.pause(3000);
+                    } else if (hook.score < 500 && limitSec <= 0) {
+                        canvas.removeAll();
+                        String lost = "GAME OVER!!";
+                        lostMessage = new GraphicsText(lost);
+                        lostMessage.setFillColor(Color.RED);
+                        lostMessage.setFontSize(45);
+                        canvas.add(lostMessage, 350, 250);
+                        canvas.draw();
+                    //game over would not show on the screen
+
                     }
                 }
             }
@@ -140,6 +149,7 @@ public class GoldMiner {
 
     /**
      * This method create the introduction page of the GoldMiner Game.
+     * 
      * @param gold
      */
     public static void createIntroductionPage(Gold gold) {
@@ -194,7 +204,7 @@ public class GoldMiner {
         GraphicsText mediumG = new GraphicsText(": 45 points");
         mediumG.setFontSize(25);
         canvas.add(mediumG, 180, 420);
-        
+
         canvas.add(gold.finalMineral.get(7), 130, 480);
         GraphicsText smallG = new GraphicsText(": 30 points");
         smallG.setFontSize(25);
@@ -220,7 +230,31 @@ public class GoldMiner {
         canvas.draw();
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    /**
+     * This method count the time that left for the user.
+     * 
+     *
+     */
+    public void timeCountDown() {
+        while (limitSec > 0) {
+            limitSec--;
+            try {
+                Thread.sleep(1000);
+                canvas.remove(timeText);
+                currentTime = "Your time limit: " + limitSec;
+                timeText = new GraphicsText(currentTime);
+                timeText.setPosition(500, 50);
+                timeText.setFontSize(18);
+                canvas.add(timeText);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    public static void main(String[] args) {
         canvas = new CanvasWindow("GoldMiner", CANVAS_WIDTH, CANVAS_HEIGHT);
         gold = new Gold(canvas);
 
