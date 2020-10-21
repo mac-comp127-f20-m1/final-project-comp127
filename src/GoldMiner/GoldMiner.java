@@ -13,6 +13,7 @@ public class GoldMiner {
 
     public static final int CANVAS_WIDTH = 800;
     public static final int CANVAS_HEIGHT = 600;
+    private int limitSec=120;
 
     public List<GraphicsObject> mineralList;
 
@@ -21,7 +22,9 @@ public class GoldMiner {
     private Hook hook;
 
     private GraphicsText scoreText;
+    private GraphicsText timeText;
     private String currentScore = "Your Score : 0";
+    private String currentTime = "Your time limit:  120 sec";
     private GraphicsText winMessage;
 
     private Line hookLine;
@@ -30,8 +33,10 @@ public class GoldMiner {
 
     private double angle;
 
+    private CountDown timer;
 
-    public GoldMiner(CanvasWindow canvas) {
+
+    public GoldMiner(CanvasWindow canvas) throws InterruptedException {
 
         gold.addToCanvas();
         hook = new Hook(canvas, 800, 600, gold);
@@ -41,10 +46,16 @@ public class GoldMiner {
         scoreText.setFontSize(18);
         canvas.add(scoreText);
 
+        timeText=new GraphicsText(currentTime);
+        timeText.setPosition(100, 80);
+        timeText.setFontSize(18);
+        canvas.add(timeText);
         // TODO: 加一个目标分数在页面的右上角。
 
         hookLine = new Line(hook.INITIAL_X, hook.INITIAL_Y, hook.getCenterX(), hook.getCenterY());
         canvas.add(hookLine);
+
+        //timer=new CountDown(limitSec);
 
         createPlayerImage();
 
@@ -52,6 +63,7 @@ public class GoldMiner {
     }
 
     public void runGame() {
+      
         canvas.animate(() -> {
             if (!collectingMinerals) {
                 hook.updateAiming(angle);
@@ -197,7 +209,7 @@ public class GoldMiner {
         // canvas.add(gold.diamond);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         canvas = new CanvasWindow("GoldMiner", CANVAS_WIDTH, CANVAS_HEIGHT);
         gold = new Gold(canvas);
 

@@ -210,4 +210,11 @@ public class Hook {
         hook.setPosition(x, y);
     }
 
+    /**
+     * Change the position of the hook.
+     * 
+     * @param x x-coordinate
+     * @param y y-coordinate
+     */
+
 }
