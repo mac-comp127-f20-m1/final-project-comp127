@@ -20,10 +20,10 @@ public class Gold {
 
     private static final Color GOLDEN = new Color(255, 215, 0);
     private static final Color DIAMOND = new Color(185, 242, 255);
-    private static final double MAXDIAMOND = 40;
+
     private static final double MAXGOLD = 30;
     private static final double MAXSTONE = 15;
-    private static final double SCOREDIAMOND = 40;
+
     private static final double SCOREGOLD = 30;
     private static final double SCORESTONE = 20;
 
@@ -31,29 +31,29 @@ public class Gold {
     public Random rand = new Random();
     private Random random;
 
-    private double x;
-    private double y;
+    private double x; // x-coordinate of each mineral
+    private double y; // y-coordinate of each mineral
 
     public Rectangle diamond;
     public Rectangle diamond1;
     public Rectangle diamond2;
-
-
 
     public Ellipse bigGold;
     public Ellipse bigStone;
     public Ellipse mediumGold;
     public Ellipse smallGold;
     public Ellipse smallStone;
-
     public Ellipse largeGold;
+
     public List<GraphicsObject> threekindsOfMineral = new ArrayList<>();
     // This list contains three kinds of minerals of different size.
 
     public List<GraphicsObject> finalMineral = new ArrayList<>();
     // This list contains the minerals that are chosen randomly and added to the canvas window.
+
     private Map<Ellipse, WeightandScore> informationOfMinerals = new HashMap<>();
     // This contains the information inclusing the radius, weight and score of a mineral
+
     private CanvasWindow canvas;
 
 
@@ -63,21 +63,19 @@ public class Gold {
 
         createMineral();
 
-        for (GraphicsObject mineralPieces : finalMineral) {
-            x = Math.random() * 700;
-            y = Math.random() * 400 + 125;
-            // x += 50;
-            // y += 30;
-            mineralPieces.setPosition(x, y);
-            canvas.add(mineralPieces);
-            canvas.draw();
-        }
+        // for (GraphicsObject mineralPieces : finalMineral) {
+        //     x = Math.random() * 700;
+        //     y = Math.random() * 400 + 125;
+        //     mineralPieces.setPosition(x, y);
+        //     canvas.add(mineralPieces);
+        //     canvas.draw();
+        // }
 
     }
 
     public void createMineral() {
 
-        // Ellipse bigGold = new Ellipse(x, y, 50, 50);
+        // Create three pieces of big size Gold.
         bigGold = new Ellipse(x, y, 50, 50);
         bigGold.setFillColor(GOLDEN);
         bigGold.setStrokeColor(GOLDEN);
@@ -90,7 +88,7 @@ public class Gold {
         bigGold2.setFillColor(GOLDEN);
         bigGold2.setStrokeColor(GOLDEN);
 
-        // Ellipse mediumGold = new Ellipse(x, y, 30, 30);
+        // Create two pieces of medium size Gold.
         mediumGold = new Ellipse(x, y, 30, 30);
         mediumGold.setFillColor(GOLDEN);
         mediumGold.setStrokeColor(GOLDEN);
@@ -99,7 +97,7 @@ public class Gold {
         mediumGold1.setFillColor(GOLDEN);
         mediumGold1.setStrokeColor(GOLDEN);
 
-        // Ellipse smallGold = new Ellipse(x, y, 20, 20);
+        // Create four pieces of small size Gold.
         smallGold = new Ellipse(x, y, 20, 20);
         smallGold.setFillColor(GOLDEN);
         smallGold.setStrokeColor(GOLDEN);
@@ -117,7 +115,7 @@ public class Gold {
         smallGold3.setStrokeColor(GOLDEN);
 
 
-        // Ellipse bigStone = new Ellipse(x, y, 50, 50);
+        // Create three big Stones
         bigStone = new Ellipse(x, y, 70, 50);
         bigStone.setFillColor(Color.gray);
         bigStone.setStrokeColor(Color.gray);
@@ -128,7 +126,7 @@ public class Gold {
         bigStone2.setFillColor(Color.gray);
         bigStone2.setStrokeColor(Color.gray);
 
-        // Ellipse smallStone = new Ellipse(x, y, 25, 25);
+        // Create three small Stones
         smallStone = new Ellipse(x, y, 35, 25);
         smallStone.setFillColor(Color.gray);
         smallStone.setStrokeColor(Color.gray);
@@ -152,8 +150,20 @@ public class Gold {
 
 
         finalMineral = List.of(bigGold, bigGold1, bigGold2, bigStone, bigStone1, bigStone2, smallGold,
-            smallGold1, smallGold2, smallGold3, mediumGold, mediumGold1, diamond, diamond1, diamond2);
+            smallGold1, smallGold2, smallGold3, mediumGold, mediumGold1, diamond, diamond1, diamond2, smallStone1,
+            smallStone, smallStone2);
 
+    }
+
+    public void addToCanvas(){
+
+        for (GraphicsObject mineralPieces : finalMineral) {
+            x = Math.random() * 700;
+            y = Math.random() * 400 + 125;
+            mineralPieces.setPosition(x, y);
+            canvas.add(mineralPieces);
+            canvas.draw();
+        }
     }
 
     /**
@@ -187,18 +197,11 @@ public class Gold {
         informationOfMinerals.put(smallStone,
             new WeightandScore(MAXSTONE - randomDouble() * 4, SCOREGOLD - randomDouble(), 25));
     }
-    // TODO:diamond是Rectangle其他类型是Ellipse,导致diaomnd无法与其他minerals放到同一个map里面
 
 
     public List<GraphicsObject> getList() {
         return finalMineral;
     }
-    // TODO: 现有的问题是：第一：当hook勾到mineral的时候，要根据mineral的种类来改变钩子的移动的速度（hook file里有提到，
-    // 但是因为很难去判定到底hook抓到的是哪一个mineral，所以我在想是不是能用Map来解决这个问题。
-    //
-    // 第二，我尝试把三种mineral集中在一个file里面，但是现有的list finalMineral太过复杂。
-    // 我本来是想把一种mineral多次添加到list里面，但是当我去定义这个mineral的坐标的时候，所有同类mineral的坐标都会同时被更改。
-    // 所以我只能命名bigGold1,2,3...
 
     
     /** create random double between 1 and 3 */

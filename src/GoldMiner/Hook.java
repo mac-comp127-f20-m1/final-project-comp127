@@ -12,16 +12,21 @@ import edu.macalester.graphics.Ellipse;
 
 public class Hook {
 
-    private GraphicsObject hook;
+    public final double INITIAL_X = 400;
+    public final double INITIAL_Y = 50;
+
+    public double score; // Accumulate the score the player has got.
+    
     private CanvasWindow canvas;
-    private Line hookaiming;
     private Gold gold;
 
+    private GraphicsObject hook;
+    private Line hookaiming;
 
     private double maxX;
     private double maxY;
     private double x2;
-    private double y2;// x2,y2 to define the end point of the hook aiming line;
+    private double y2; // x2 and y2 are the coordinate of the end point of the hook aiming line;
 
     private double velocity = 10;
 
@@ -29,15 +34,7 @@ public class Hook {
     private double moveX = velocity * Math.sin(angle);
     private double moveY = velocity * Math.cos(angle);
 
-
-    public final double INITIAL_X = 400;
-    public final double INITIAL_Y = 50;
-
-    public double score;
-
-    public boolean now = true;
-
-    public List<GraphicsObject> min;
+    public List<GraphicsObject> mineralList;
     public Map<Ellipse, WeightandScore> newMap;
 
     public Hook(CanvasWindow canvas, double maxX, double maxY, Gold gold) {
@@ -50,7 +47,7 @@ public class Hook {
         canvas.add(hook);
         canvas.draw();
 
-        min = new ArrayList<>(gold.getList());
+        mineralList = new ArrayList<>(gold.getList());
         newMap = gold.getMap();
 
         x2 = INITIAL_X + 2.5;
@@ -81,18 +78,22 @@ public class Hook {
 
         }
 
-        for (GraphicsObject g : min) {
-            if (g.getY() <= INITIAL_Y) {
-                canvas.remove(g);
-                min.remove(g);
+        for (GraphicsObject oneMineral : mineralList) {
+            if (oneMineral.getY() <= INITIAL_Y) {
+                canvas.remove(oneMineral);
+                mineralList.remove(oneMineral);
                 break;
             } else {
-                getMineral(g);
+                getMineral(oneMineral);
             }
         }
 
     }
 
+    /**
+     * This method update the moveX and moveY of the hook by given velocity.
+     * @param velocity
+     */
     public void updateDirection(double velocity) {
 
         moveX = velocity * Math.sin(angle);
@@ -101,9 +102,13 @@ public class Hook {
     }
 
 
-    public void updateAiming(double i) {
+    /**
+     * This method takes angle in degrees as parameter, update the position of the aiming line.
+     * @param angleInDegrees
+     */
+    public void updateAiming(double angleInDegrees) {
 
-        angle = Math.toRadians(i);
+        angle = Math.toRadians(angleInDegrees);
         x2 = Math.sin(angle) * 40 + INITIAL_X;
         y2 = Math.cos(angle) * 40 + INITIAL_Y;
         hookaiming.setEndPosition(x2, y2);
@@ -121,7 +126,8 @@ public class Hook {
     public boolean getMineral(GraphicsObject mineral) {
 
         double radius = mineral.getSize().getX() / 2;
-        velocity = 20 / radius;
+        velocity = 20 / radius; 
+        // As the radius of the mineral increase, the velocity of the hook will decrease.
 
         if (distance(mineral) <= Math.pow(radius, 2)) {
             if (moveY >= 0) {
@@ -135,30 +141,29 @@ public class Hook {
 
             if (mineral.getY() <= INITIAL_Y) {
                 mineral.setPosition(800, 600);
+
                 if (mineral.equals(gold.diamond) || mineral.equals(gold.diamond1)
                     || mineral.equals(gold.diamond2)) {
-                    score += 100;
-                } else {
+                        // if the mineral is diamond
+                        score += 100;
+
+                } else if (mineral.getSize().getX() != mineral.getSize().getY()){
+                    // if the mineral is stone
                     score += radius;
+                }
+                
+                else {
+                    // if the mineral is gold
+                    score += radius * 3;
                 }
 
             }
-
             return true;
         } else {
             return false;
         }
-        // TODO 还没有改MINERAL的VELOCITY
 
     }
-
-    // TODO: 可以用这个来改变速度，加在上一个getMineral 的 method里面。
-    // public void updateVelocity(){
-    // velocity = 5;
-    // moveX = velocity * Math.sin(angle);
-    // moveY = velocity * Math.cos(angle);
-
-    // }
 
     /**
      * Calculate the distance between the hook and the mineral.
@@ -167,12 +172,6 @@ public class Hook {
      * @return
      */
     public double distance(GraphicsObject mineral) {
-
-
-        // double x1 = this.getCenterX() + 5 * Math.sqrt(2);
-        // double x2 = mineral.getX() + 15;
-        // double y1 = this.getCenterY() + 5 * Math.sqrt(2);
-        // double y2 = mineral.getY() + 15;
 
         double x1 = this.getCenterX();
         double x2 = mineral.getCenter().getX();
@@ -185,26 +184,20 @@ public class Hook {
 
     }
 
+    /**
+     * Return the x-coordinate of the center of the hook.
+     * @return
+     */
     public double getCenterX() {
         return hook.getCenter().getX();
     }
 
+    /**
+     * Return the y-coordinate of the center fo the hook.
+     * @return
+     */
     public double getCenterY() {
         return hook.getCenter().getY();
-    }
-
-    public double getMoveX() {
-        return moveX;
-    }
-
-    public double getMoveY() {
-        return moveY;
-    }
-
-    public double getCurrentAngle() {
-        double answer = Math
-            .atan((hookaiming.getX2() - hookaiming.getX1()) / (hookaiming.getY2() - hookaiming.getY1()));
-        return answer;
     }
 
     /**
@@ -217,20 +210,4 @@ public class Hook {
         hook.setPosition(x, y);
     }
 
-    /**
-     * Check the collision between the minerals and the hook
-     * 
-     * @param x x-coordinate
-     * @param y y-coordinate
-     */
-    private GraphicsObject getCollidingObject() {
-
-        if ((canvas.getElementAt(getCenterX(), getCenterY())) != null) {
-            return canvas.getElementAt(getCenterX(), getCenterY());
-        } else {
-            return null;
-        }
-
-    }
-    // TODO: how to collect score
 }
