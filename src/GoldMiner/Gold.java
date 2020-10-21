@@ -35,6 +35,11 @@ public class Gold {
     private double y;
 
     public Rectangle diamond;
+    public Rectangle diamond1;
+    public Rectangle diamond2;
+
+
+
     public Ellipse bigGold;
     public Ellipse bigStone;
     public Ellipse mediumGold;
@@ -113,34 +118,36 @@ public class Gold {
 
 
         // Ellipse bigStone = new Ellipse(x, y, 50, 50);
-        bigStone = new Ellipse(x, y, 50, 50);
+        bigStone = new Ellipse(x, y, 70, 50);
         bigStone.setFillColor(Color.gray);
         bigStone.setStrokeColor(Color.gray);
-        Ellipse bigStone1 = new Ellipse(x, y, 50, 50);
+        Ellipse bigStone1 = new Ellipse(x, y, 70, 50);
         bigStone1.setFillColor(Color.gray);
         bigStone1.setStrokeColor(Color.gray);
-        Ellipse bigStone2 = new Ellipse(x, y, 50, 50);
+        Ellipse bigStone2 = new Ellipse(x, y, 70, 50);
         bigStone2.setFillColor(Color.gray);
         bigStone2.setStrokeColor(Color.gray);
 
         // Ellipse smallStone = new Ellipse(x, y, 25, 25);
-        smallStone = new Ellipse(x, y, 25, 25);
+        smallStone = new Ellipse(x, y, 35, 25);
         smallStone.setFillColor(Color.gray);
         smallStone.setStrokeColor(Color.gray);
-        Ellipse smallStone1 = new Ellipse(x, y, 25, 25);
+        Ellipse smallStone1 = new Ellipse(x, y, 35, 25);
         smallStone1.setFillColor(Color.gray);
         smallStone1.setStrokeColor(Color.gray);
-        Ellipse smallStone2 = new Ellipse(x, y, 25, 25);
+        Ellipse smallStone2 = new Ellipse(x, y, 35, 25);
         smallStone2.setFillColor(Color.gray);
         smallStone2.setStrokeColor(Color.gray);
 
 
-        // Rectangle diamond = new Rectangle(x, y, 20, 20);
+        // Create three diamonds;
         diamond = new Rectangle(x, y, 20, 20);
         diamond.setFillColor(DIAMOND);
-        Rectangle diamond1 = new Rectangle(x, y, 20, 20);
+
+        diamond1 = new Rectangle(x, y, 20, 20);
         diamond1.setFillColor(DIAMOND);
-        Rectangle diamond2 = new Rectangle(x, y, 20, 20);
+
+        diamond2 = new Rectangle(x, y, 20, 20);
         diamond2.setFillColor(DIAMOND);
 
 

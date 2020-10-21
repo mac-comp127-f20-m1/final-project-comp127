@@ -24,16 +24,16 @@ public class Hook {
     private double y2;// x2,y2 to define the end point of the hook aiming line;
 
     private double velocity = 10;
-    private double score;
-
 
     private double angle = Math.toRadians(-10);
-    private double moveX = velocity * Math.sin(angle);// TODO：这里的5是目前的设置，后期需要根据hook勾到物品的不同来改变它。
+    private double moveX = velocity * Math.sin(angle);
     private double moveY = velocity * Math.cos(angle);
 
 
     public final double INITIAL_X = 400;
     public final double INITIAL_Y = 50;
+
+    public double score;
 
     public boolean now = true;
 
@@ -44,74 +44,68 @@ public class Hook {
         this.maxX = maxX;
         this.maxY = maxY;
         this.canvas = canvas;
-        this.gold=gold;
+        this.gold = gold;
 
         hook = new Rectangle(INITIAL_X, INITIAL_Y, 10, 10);
         canvas.add(hook);
         canvas.draw();
 
         min = new ArrayList<>(gold.getList());
-        newMap=gold.getMap();
+        newMap = gold.getMap();
 
-        x2 = INITIAL_X + 5;
+        x2 = INITIAL_X + 2.5;
         y2 = INITIAL_Y + 15;
-        //score=newMap.get(gold).getScore();
-        hookaiming = new Line(INITIAL_X + 5, INITIAL_Y, x2, y2);
+
+        hookaiming = new Line(INITIAL_X, INITIAL_Y, x2, y2);
         hookaiming.setStrokeWidth(4);
         canvas.add(hookaiming);
 
     }
-      /**
+
+    /**
      * This function update the position of the hook
      * 
-     * @param angle The change angle of the hook
+     * @param angle   The change angle of the hook
      * @param mineral The name of the mineral that would generate the parameters of the minerals
      * @return
      */
     public void updatePosition(double angle) {
-        //  double weight=newMap.get(mineral).getWeight();
-        //  double score=newMap.get(mineral).getScore();
-        //  double newX = moveX -weight;
-        //  double newY=moveY-weight;
+
         if (hook.getX() >= 0 && hook.getX() <= maxX && hook.getY() <= maxY) {
             hook.moveBy(moveX, moveY);
-            //maybe add step
-           
+
         } else {
             moveX = 0 - moveX;
             moveY = 0 - moveY;
-            hook.moveBy(10*moveX, 10*moveY);
-      
+            hook.moveBy(10 * moveX, 10 * moveY);
+
         }
 
         for (GraphicsObject g : min) {
-                if(g.getY()<= INITIAL_Y){
-                    canvas.remove(g);
-                    min.remove(g);
-                    break;
-                }else{
-                    getMineral(g);
-                }
+            if (g.getY() <= INITIAL_Y) {
+                canvas.remove(g);
+                min.remove(g);
+                break;
+            } else {
+                getMineral(g);
             }
-        // TODO: 如果从list里面remove的话，会有error message：ConcurrentModificationException
-        // 可以考虑将检测两者之间距离的distance method换成getElementAt.
-        //TODO：现在的问题是，不知道MINERALS怎么放进这个METHOD里面
+        }
 
     }
 
-    public void updateDirection() {
+    public void updateDirection(double velocity) {
 
         moveX = velocity * Math.sin(angle);
-        moveY = velocity * Math.cos(angle);     
-        
-    }
+        moveY = velocity * Math.cos(angle);
 
+    }
 
 
     public void updateAiming(double i) {
+
         angle = Math.toRadians(i);
-        x2 = Math.sin(angle) * 40 + INITIAL_X + 5;
-        y2 = Math.cos(angle) * 40 + INITIAL_Y + 15;
+        x2 = Math.sin(angle) * 40 + INITIAL_X;
+        y2 = Math.cos(angle) * 40 + INITIAL_Y;
         hookaiming.setEndPosition(x2, y2);
         canvas.draw();
         canvas.pause(50);
@@ -126,29 +120,35 @@ public class Hook {
      */
     public boolean getMineral(GraphicsObject mineral) {
 
-        double radius = mineral.getSize().getX();
-  
-        if (distance(mineral) <= Math.pow(radius,2)+100) {
+        double radius = mineral.getSize().getX() / 2;
+        velocity = 20 / radius;
+
+        if (distance(mineral) <= Math.pow(radius, 2)) {
             if (moveY >= 0) {
-                // updateVelocity();
+                updateDirection(velocity);
                 moveX = 0 - moveX;
                 moveY = 0 - moveY;
-                
+
             }
             hook.moveBy(moveX, moveY);
-            mineral.moveBy(2 * moveX,  2 * moveY);
-            // 系数是2，因为1的时候它检测不到mineral移动。
+            mineral.moveBy(2 * moveX, 2 * moveY);
 
             if (mineral.getY() <= INITIAL_Y) {
                 mineral.setPosition(800, 600);
-                
+                if (mineral.equals(gold.diamond) || mineral.equals(gold.diamond1)
+                    || mineral.equals(gold.diamond2)) {
+                    score += 100;
+                } else {
+                    score += radius;
+                }
+
             }
 
             return true;
         } else {
             return false;
         }
-        //TODO 还没有改MINERAL的VELOCITY
+        // TODO 还没有改MINERAL的VELOCITY
 
     }
 
@@ -201,8 +201,9 @@ public class Hook {
         return moveY;
     }
 
-    public double getCurrentAngle(){
-        double answer = Math.atan((hookaiming.getX2()-hookaiming.getX1())/(hookaiming.getY2()-hookaiming.getY1()));
+    public double getCurrentAngle() {
+        double answer = Math
+            .atan((hookaiming.getX2() - hookaiming.getX1()) / (hookaiming.getY2() - hookaiming.getY1()));
         return answer;
     }
 
@@ -231,5 +232,5 @@ public class Hook {
         }
 
     }
-    //TODO: how to collect score
+    // TODO: how to collect score
 }

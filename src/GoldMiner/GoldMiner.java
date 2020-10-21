@@ -1,10 +1,11 @@
 package GoldMiner;
 
+import java.awt.Color;
+
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Ellipse;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Line;
-import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.ui.Button;
 
 public class GoldMiner {
@@ -15,8 +16,8 @@ public class GoldMiner {
     private CanvasWindow canvas;
     private Hook hook;
     private Gold gold;
-
-    private Button start;
+    private GraphicsText scoreText;
+    private String currentScore = "Your Score : 0";
 
     private boolean collectingMinerals = false;
 
@@ -29,9 +30,10 @@ public class GoldMiner {
         gold = new Gold(canvas);
         hook = new Hook(canvas, 800, 600, gold);
 
-        start = new Button("START");
-        start.setPosition(700, 550);
-        canvas.add(start);
+        scoreText = new GraphicsText(currentScore);
+        scoreText.setPosition(100, 50);
+        scoreText.setFontSize(18);
+        canvas.add(scoreText);
 
         createPlayerImage();
 
@@ -57,6 +59,14 @@ public class GoldMiner {
                 hook.updatePosition(angle);
                 if (hook.getCenterY() <= 50) {
                     collectingMinerals = false;
+
+                    canvas.remove(scoreText);
+                    currentScore = "Your Score : " + hook.score;
+                    scoreText = new GraphicsText(currentScore);
+                    scoreText.setPosition(100, 50);
+                    scoreText.setFontSize(18);
+                    scoreText.setFillColor(Color.MAGENTA);
+                    canvas.add(scoreText);
                 }
             }
         });
@@ -64,17 +74,21 @@ public class GoldMiner {
         canvas.onClick(event -> {
             if (!collectingMinerals) {
                 collectingMinerals = true;
-                hook.updateDirection();
+                hook.updateDirection(10);
             }
         });
     }
 
 
     public void createPlayerImage() {
-        Ellipse head = new Ellipse(400, 20, 22, 22);
-        Line body = new Line(411, 44, 411, 55);
+        Ellipse head = new Ellipse(395, 20, 22, 22);
+        head.setStrokeColor(Color.PINK);
+        head.setStrokeWidth(2);
+        Line body = new Line(406, 44, 406, 55);
+        body.setStrokeColor(Color.PINK);
+        body.setStrokeWidth(3);
         GraphicsText text = new GraphicsText("YOU");
-        text.setCenter(417, 28);
+        text.setCenter(412, 28);
         text.setFontSize(8);
         canvas.add(head);
         canvas.add(body);
