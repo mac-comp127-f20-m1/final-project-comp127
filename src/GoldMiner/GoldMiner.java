@@ -13,13 +13,16 @@ public class GoldMiner {
 
     public static final int CANVAS_WIDTH = 800;
     public static final int CANVAS_HEIGHT = 600;
-    private int limitSec = 60;
-
-    public List<GraphicsObject> mineralList;
 
     private static CanvasWindow canvas;
     private static Gold gold;
+
+    public List<GraphicsObject> mineralList;
+    
     private Hook hook;
+    private double angle;
+    private Line hookLine;
+    private double limitSec = 60;
 
     private GraphicsText scoreText;
     private GraphicsText timeText;
@@ -28,14 +31,9 @@ public class GoldMiner {
     private GraphicsText winMessage;
     private GraphicsText lostMessage;
 
-    private Line hookLine;
-
     private boolean collectingMinerals = false;
 
-    private double angle;
-
-
-    public GoldMiner(CanvasWindow canvas)  {
+    public GoldMiner(CanvasWindow canvas) {
 
         gold.addToCanvas();
         hook = new Hook(canvas, 800, 600, gold);
@@ -58,16 +56,15 @@ public class GoldMiner {
         hookLine = new Line(hook.INITIAL_X, hook.INITIAL_Y, hook.getCenterX(), hook.getCenterY());
         canvas.add(hookLine);
 
-
         createPlayerImage();
 
         runGame();
-        timeCountDown();
-        //TODO: everything would stop moving until the time=0;
     }
 
     public void runGame() {
-        canvas.animate(() -> {
+        canvas.animate((deltaTime) -> {
+            timeCountDown(deltaTime);
+
             if (!collectingMinerals) {
                 hook.updateAiming(angle);
                 angle += 1;
@@ -80,37 +77,15 @@ public class GoldMiner {
                 hook.updatePosition(angle);
                 hookLine.setEndPosition(hook.getCenterX(), hook.getCenterY());
 
-                if (hook.getCenterY() <= 50) {
+                if (hook.getCenterY() <= 47) {
                     collectingMinerals = false;
-
-                    canvas.remove(scoreText);
-                    currentScore = "Your Score : " + hook.score;
-                    scoreText = new GraphicsText(currentScore);
-                    scoreText.setPosition(100, 50);
-                    scoreText.setFontSize(18);
+                    scoreText.setText("Your Score : " + hook.score);
                     scoreText.setFillColor(Color.MAGENTA);
-                    canvas.add(scoreText);
 
                     if (hook.score > 500) {
                         collectingMinerals = false;
-                        //canvas.removeAll();
-                        String win = "YOU WIN!!";
-                        winMessage = new GraphicsText(win);
-                        winMessage.setFillColor(Color.RED);
-                        winMessage.setFontSize(45);
-                        canvas.add(winMessage, 350, 250);
-                        canvas.draw();
-                        canvas.pause(3000);
-                    } else if (hook.score < 500 && limitSec <= 0) {
-                        canvas.removeAll();
-                        String lost = "GAME OVER!!";
-                        lostMessage = new GraphicsText(lost);
-                        lostMessage.setFillColor(Color.RED);
-                        lostMessage.setFontSize(45);
-                        canvas.add(lostMessage, 350, 250);
-                        canvas.draw();
-                    //game over would not show on the screen
-
+                        printWinMessage();
+                        canvas.closeWindow();
                     }
                 }
             }
@@ -120,9 +95,6 @@ public class GoldMiner {
             if (!collectingMinerals) {
                 collectingMinerals = true;
                 hook.updateDirection(10);
-                if (winMessage != null) {
-                    canvas.remove(winMessage);
-                }
             }
         });
     }
@@ -146,6 +118,34 @@ public class GoldMiner {
         canvas.add(text);
         canvas.draw();
     }
+
+    /**
+     * This method prints the win message on the canvas window.
+     */
+    public void printWinMessage() {
+        String win = "YOU WIN!!";
+        winMessage = new GraphicsText(win);
+        winMessage.setFillColor(Color.RED);
+        winMessage.setFontSize(45);
+        canvas.add(winMessage, 350, 250);
+        canvas.draw();
+        canvas.pause(3000);
+    }
+
+    /**
+     * This method prints the win message on the canvas window.
+     */
+    public void printLoseMessage() {
+        canvas.removeAll();
+        String lost = "GAME OVER!!";
+        lostMessage = new GraphicsText(lost);
+        lostMessage.setFillColor(Color.RED);
+        lostMessage.setFontSize(45);
+        canvas.add(lostMessage, 350, 250);
+        canvas.draw();
+        canvas.pause(3000);
+    }
+
 
     /**
      * This method create the introduction page of the GoldMiner Game.
@@ -235,22 +235,13 @@ public class GoldMiner {
      * 
      *
      */
-    public void timeCountDown() {
-        while (limitSec > 0) {
-            limitSec--;
-            try {
-                Thread.sleep(1000);
-                canvas.remove(timeText);
-                currentTime = "Your time limit: " + limitSec;
-                timeText = new GraphicsText(currentTime);
-                timeText.setPosition(500, 50);
-                timeText.setFontSize(18);
-                canvas.add(timeText);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+    public void timeCountDown(double deltaTime) {
+        limitSec -= deltaTime;
+        timeText.setText("Your time limit: " + (int) limitSec);
+        if (hook.score < 500 && limitSec <= 0) {
+            printLoseMessage();
+            canvas.closeWindow();
         }
-
     }
 
 
@@ -259,7 +250,7 @@ public class GoldMiner {
         gold = new Gold(canvas);
 
         createIntroductionPage(gold);
-        canvas.pause(5000);
+        // canvas.pause(5000);
         canvas.removeAll();
 
 

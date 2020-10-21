@@ -51,31 +51,22 @@ public class Gold {
     public List<GraphicsObject> finalMineral = new ArrayList<>();
     // This list contains the minerals that are chosen randomly and added to the canvas window.
 
-    private Map<Ellipse, WeightandScore> informationOfMinerals = new HashMap<>();
-    // This contains the information inclusing the radius, weight and score of a mineral
-
     private CanvasWindow canvas;
 
 
     public Gold(CanvasWindow canvas) {
         this.canvas = canvas;
-
-
         createMineral();
-
     }
 
     public void createMineral() {
-
         // Create three pieces of big size Gold.
         bigGold = new Ellipse(x, y, 50, 50);
         bigGold.setFillColor(GOLDEN);
         bigGold.setStrokeColor(GOLDEN);
-
         Ellipse bigGold1 = new Ellipse(x, y, 50, 50);
         bigGold1.setFillColor(GOLDEN);
         bigGold1.setStrokeColor(GOLDEN);
-
         Ellipse bigGold2 = new Ellipse(x, y, 50, 50);
         bigGold2.setFillColor(GOLDEN);
         bigGold2.setStrokeColor(GOLDEN);
@@ -84,7 +75,6 @@ public class Gold {
         mediumGold = new Ellipse(x, y, 30, 30);
         mediumGold.setFillColor(GOLDEN);
         mediumGold.setStrokeColor(GOLDEN);
-
         Ellipse mediumGold1 = new Ellipse(x, y, 30, 30);
         mediumGold1.setFillColor(GOLDEN);
         mediumGold1.setStrokeColor(GOLDEN);
@@ -93,15 +83,12 @@ public class Gold {
         smallGold = new Ellipse(x, y, 20, 20);
         smallGold.setFillColor(GOLDEN);
         smallGold.setStrokeColor(GOLDEN);
-
         Ellipse smallGold1 = new Ellipse(x, y, 20, 20);
         smallGold1.setFillColor(GOLDEN);
         smallGold1.setStrokeColor(GOLDEN);
-
         Ellipse smallGold2 = new Ellipse(x, y, 20, 20);
         smallGold2.setFillColor(GOLDEN);
         smallGold2.setStrokeColor(GOLDEN);
-
         Ellipse smallGold3 = new Ellipse(x, y, 20, 20);
         smallGold3.setFillColor(GOLDEN);
         smallGold3.setStrokeColor(GOLDEN);
@@ -133,10 +120,8 @@ public class Gold {
         // Create three diamonds;
         diamond = new Rectangle(x, y, 20, 20);
         diamond.setFillColor(DIAMOND);
-
         diamond1 = new Rectangle(x, y, 20, 20);
         diamond1.setFillColor(DIAMOND);
-
         diamond2 = new Rectangle(x, y, 20, 20);
         diamond2.setFillColor(DIAMOND);
 
@@ -158,37 +143,37 @@ public class Gold {
         }
     }
 
-    /**
-     * Return the radius of the given mineral 还没写出来，我在想是不是可以用Map来解决这个问题，把mineral设为Key,
-     * 把mineral的重量设为value;
-     * 
-     * @param mineral
-     * @return
-     */
-    public double getMineralRadius(GraphicsObject mineral) {
+    // /**
+    //  * Return the radius of the given mineral 还没写出来，我在想是不是可以用Map来解决这个问题，把mineral设为Key,
+    //  * 把mineral的重量设为value;
+    //  * 
+    //  * @param mineral
+    //  * @return
+    //  */
+    // public double getMineralRadius(GraphicsObject mineral) {
 
-        return informationOfMinerals.get(mineral).getRadius();
-    }
+    //     return informationOfMinerals.get(mineral).getRadius();
+    // }
 
-    /**
-     * Create a map that the key contains the information of the minerals and the value is the mineral
-     * 
-     * @param
-     * @return
-     */
-    public void createMap() {
-        // informationOfMinerals.put(new WeightandScore(MAXDIAMOND-randomDouble(), SCOREDIAMOND, 20),
-        // diamond);
-        informationOfMinerals.put(bigGold, 
-            new WeightandScore(MAXGOLD - randomDouble(), SCOREGOLD, 50));
-        informationOfMinerals.put(mediumGold,
-            new WeightandScore(MAXGOLD - randomDouble() * 4, SCOREGOLD - randomDouble(), 30));
-        informationOfMinerals.put(smallGold,
-            new WeightandScore(MAXGOLD - randomDouble() * 8, SCOREGOLD - randomDouble() * 4, 20));
-        informationOfMinerals.put(bigStone, new WeightandScore(MAXSTONE - randomDouble(), SCORESTONE, 50));
-        informationOfMinerals.put(smallStone,
-            new WeightandScore(MAXSTONE - randomDouble() * 4, SCOREGOLD - randomDouble(), 25));
-    }
+    // /**
+    //  * Create a map that the key contains the information of the minerals and the value is the mineral
+    //  * 
+    //  * @param
+    //  * @return
+    //  */
+    // public void createMap() {
+    //     // informationOfMinerals.put(new WeightandScore(MAXDIAMOND-randomDouble(), SCOREDIAMOND, 20),
+    //     // diamond);
+    //     informationOfMinerals.put(bigGold, 
+    //         new WeightandScore(MAXGOLD - randomDouble(), SCOREGOLD, 50));
+    //     informationOfMinerals.put(mediumGold,
+    //         new WeightandScore(MAXGOLD - randomDouble() * 4, SCOREGOLD - randomDouble(), 30));
+    //     informationOfMinerals.put(smallGold,
+    //         new WeightandScore(MAXGOLD - randomDouble() * 8, SCOREGOLD - randomDouble() * 4, 20));
+    //     informationOfMinerals.put(bigStone, new WeightandScore(MAXSTONE - randomDouble(), SCORESTONE, 50));
+    //     informationOfMinerals.put(smallStone,
+    //         new WeightandScore(MAXSTONE - randomDouble() * 4, SCOREGOLD - randomDouble(), 25));
+    // }
 
 
     public List<GraphicsObject> getList() {
@@ -203,7 +188,7 @@ public class Gold {
         return random.nextDouble() * (max - min) + min;
     }
 
-    public Map<Ellipse, WeightandScore> getMap(){
-        return informationOfMinerals;
-    }
+   // public Map<Ellipse, WeightandScore> getMap(){
+    //     return informationOfMinerals;
+    // }
 }
