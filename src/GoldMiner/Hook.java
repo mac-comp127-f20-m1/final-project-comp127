@@ -2,13 +2,11 @@ package GoldMiner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.Line;
 import edu.macalester.graphics.Rectangle;
-import edu.macalester.graphics.Ellipse;
 
 public class Hook {
 
@@ -133,7 +131,7 @@ public class Hook {
             hook.moveBy(moveX, moveY);
             mineral.moveBy(2 * moveX, 2 * moveY);
             // Remove the mineral when it get to the initial point of the hook.
-            if (mineral.getY() <= INITIAL_Y + 5) {
+            if (mineral.getY() <= INITIAL_Y + 4) {
                 mineral.setPosition(1000, 1000);
                 // Change the velocity of the hook
                 if (mineral.equals(gold.diamond) || mineral.equals(gold.diamond1)

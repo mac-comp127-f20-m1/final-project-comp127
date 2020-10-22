@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.Ellipse;
+import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Line;
@@ -27,9 +28,10 @@ public class GoldMiner {
     private GraphicsText scoreText;
     private GraphicsText timeText;
     private String currentScore = "Your Score : 0";
-    private String currentTime = "Your time limit:  60 sec";
+    private String currentTime = "Time Left :  60 sec";
     private GraphicsText winMessage;
     private GraphicsText lostMessage;
+
 
     private boolean collectingMinerals = false;
 
@@ -49,8 +51,9 @@ public class GoldMiner {
         canvas.add(targetScore);
 
         timeText = new GraphicsText(currentTime);
-        timeText.setPosition(500, 50);
-        timeText.setFontSize(18);
+        timeText.setPosition(520, 40);
+        timeText.setFont(FontStyle.BOLD, 18);
+
         canvas.add(timeText);
 
         hookLine = new Line(hook.INITIAL_X, hook.INITIAL_Y, hook.getCenterX(), hook.getCenterY());
@@ -104,15 +107,15 @@ public class GoldMiner {
      * This method create the image of the player on the middle top of the canvas window.
      */
     public void createPlayerImage() {
-        Ellipse head = new Ellipse(395, 20, 22, 22);
+        Ellipse head = new Ellipse(390, 6, 30, 30);
         head.setStrokeColor(Color.PINK);
         head.setStrokeWidth(2);
-        Line body = new Line(406, 44, 406, 55);
+        Line body = new Line(406, 36, 406, 53);
         body.setStrokeColor(Color.PINK);
-        body.setStrokeWidth(3);
+        body.setStrokeWidth(4);
         GraphicsText text = new GraphicsText("YOU");
-        text.setCenter(412, 28);
-        text.setFontSize(8);
+        text.setCenter(409, 21);
+        text.setFontSize(10);
         canvas.add(head);
         canvas.add(body);
         canvas.add(text);
@@ -237,7 +240,7 @@ public class GoldMiner {
      */
     public void timeCountDown(double deltaTime) {
         limitSec -= deltaTime;
-        timeText.setText("Your time limit: " + (int) limitSec);
+        timeText.setText("Time Left : " + (int) limitSec  +" sec");
         if (hook.score < 500 && limitSec <= 0) {
             printLoseMessage();
             canvas.closeWindow();
@@ -250,7 +253,7 @@ public class GoldMiner {
         gold = new Gold(canvas);
 
         createIntroductionPage(gold);
-        // canvas.pause(5000);
+        canvas.pause(5000);
         canvas.removeAll();
 
 
